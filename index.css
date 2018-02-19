@@ -1,0 +1,62 @@
+/* 
+Name:       Andrew Vaughn
+Class:      CSCI 1300-001[MW]
+Assign#:    A7
+Due:        March 10th, 2014
+
+Honor Pledge:  On my honor as a student of the University of Nebraska at Omaha, I have neither given nor recieved unauthorized help on this homework assignment.
+
+NAME:   Andrew Vaughn
+EMAIL:  avaughn01@unomaha.edu
+
+Partners:   None
+
+Assignment a7 css launch page
+*/
+
+/* This modifies the text overall */
+body
+{
+    font-family:arial, serif;
+}
+
+/* This is going to modify the navbar */
+#navbar
+{
+    width:200px;
+    position:fixed;
+    left:0px;
+    top:0px;
+    bottom:0px;
+    background-color:#CCCCCC;
+    border-style:solid;
+    border-width:3px;
+    border-color:black;
+}
+
+
+/* This changes what happens when you hover over a link */
+a:hover
+{
+    color:white;
+    background-color:#660066;
+}
+
+/* This changes the content area and seperates it from the navbar */
+#content
+{
+    margin-left:200px;
+    background:#999999;
+}
+
+/* This modifies the h2 header */
+h2
+{
+    text-align:center;
+}
+
+/* This modifies the h3 header */
+h3
+{
+    text-align:left;
+}

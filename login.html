@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<style>
+.badUser {
+	border : 1px solid red;
+}
+.badPass {
+	border : 1px solid red;
+}
+</style>
+<title>Login</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<script>
+
+var socket = io();
+
+// send the login request to the server
+function login(username, password) {
+	socket.emit('login', {
+		'username' : username,
+		'password' : password
+		});
+}
+
+// a user logged in, send them to game page
+socket.on('goodLogin', function(msg) {
+	document.cookie = msg.gameId;
+	window.location.assign("http://localhost:1000/game2.html");
+	});
+
+// bad login request was sent to server
+socket.on('badLogin', function(msg) {
+	document.getElementById('username').value = "";
+	document.getElementById('username').classList.add('badUser');
+	document.getElementById('password').value = "";
+	document.getElementById('password').classList.add('badPass');
+	document.getElementById('badLogin').style.visibility = "visible";
+	});
+
+</script>
+
+</head>
+<body>
+<div id = "loginBox">
+<form>
+Username:
+<br>
+<input type = "text" id = "username">
+<br>
+<br>
+Password:
+<br>
+<input type="password" id="password">
+<br>
+<button type="button" id="submit" onclick="login(document.getElementById('username').value, document.getElementById('password').value)">Submit</button>
+<a href="register.html">Not a user? Register here</a>
+<p style="visibility:hidden;margin:5px;" id="badLogin">Incorrect username/password</p>
+</form>
+</div>
+</body>
+</html>

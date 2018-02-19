@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<style>
+#hpDisplay{
+left:0px;
+top:0px;
+margin-bottom:10px;
+width:250px;
+height:25px;
+border: 1px solid black;
+text-align:left;
+}
+#myBar {
+position:fixed;
+top:11px;
+left:35px;
+}
+</style>
+<title>Game?</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+</head>
+<body>
+<div id ="hpDisplay">
+HP:
+</div>
+<canvas id="myBar"></canvas>
+
+<div id="ascii">
+<p id ="bossFace">                 #########<br>
+                                 #############<br>
+                               #################<br>
+                              ####OO####OO####<br>
+                             ######OO###OO######<br>
+                             #######OO###OO#######<br>
+                             #######################<br>
+                              ########OOOO#######<br> 
+                               ######OOOOOO#####<br>
+                                 ###############<br>
+                                   #########
+</p>
+</div>
+<button type="button" id="attack" onclick="attack()">Attack</button>
+<button type='button' id='joinQ' onclick='joinQ()'>Join Players</button>
+
+</body>
+<script>
+var socket = io();
+
+// group code
+var sessionId = -1;
+// individual game code
+var gameId = -1;
+
+var c = document.getElementById("myBar");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "green";
+// draw the hp bar
+window.onload = cLoad(200,20);
+function cLoad(w,h) {
+	// create the gradient
+	//var grd = ctx.createLinearGradient(0,0,200,0);
+	//grd.addColorStop(.8,"green");
+	//grd.addColorStop(1,"white");
+	ctx.fillRect(0,0,w,h);
+	
+	// tell server you are loading, and send it your
+	// gameId (which is your cookie)
+	socket.emit('clientLoading', {
+	'gameId': document.cookie
+	});
+}
+
+// have server set values to what they were before user logged out
+socket.on('serverLoad', function(msg) {
+	gameId = parseInt(msg.gameId);
+	document.getElementById("myBar").width = parseInt(msg.hp);
+	ctx.fillStyle = "green";
+	ctx.fillRect(0,0,parseInt(msg.hp),20);
+});
+// send attack to server
+function attack() {
+socket.emit('attack', {
+	'gameId': gameId,
+	'sessionId': sessionId
+	});
+}
+// get results of attack from server
+socket.on('updateHP', function(msg) {
+	document.getElementById("myBar").width = parseInt(msg.hp);
+	// not sure why, but I have to set the color back to green
+	// otherwise it defaults to black
+	ctx.fillStyle = "green";
+	ctx.fillRect(0,0,parseInt(msg.hp),20);
+ });
+ 
+ socket.on('updateGroupHp', function(msg) {
+	ctx.fillStyle = "green";
+	ctx.fillRect(0,0,width,height);
+ });
+ function joinQ() {
+ socket.emit('joinQ', {
+	'gameId' : gameId});
+ }
+ 
+ socket.on('joinedSession', function(msg) { 
+	sessionId = parseInt(msg);
+	document.getElementById('joinQ').disabled = true;
+	document.getElementById('joinQ').opacity = .5;
+	console.log("Session: " + sessionId);
+});
+
+</script>
+</html>
