@@ -1,27 +1,94 @@
 <!doctype html>
 <html>
-<head>
-<title>OnShop</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-<link rel="stylesheet" type="text/css" href="index.css" />
+<head>
+	<title>OnShop</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+		<style>
+		#top {
+		width:96.1%;
+		height:100px;
+		border-style:solid;
+		border-width: 5px;
+		}
+		#left {
+		padding: 5px;
+		top:110px;
+		float: left;
+		width:30%;
+		border-style: solid;
+		border-width: 5px;
+		height:500px;
+		}
+		#middle {
+		top:110px;
+		width:30%;
+		margin-left: 10px;
+		float: left;
+		border-style: solid;
+		border-width: 5px;
+		height:500px;
+		}
+		#right {
+		top:110px;
+		width:30%;
+		margin-left: 10px;
+		float: left;
+		border-style: solid;
+		border-width: 5px;
+		height:500px;
+		padding: 5px;
+		}
+		
+		#qProd {
+		opacity: 0.5;		
+		}
+		
+		#login {
+		padding-left: 650px;
+		
+		}
+		
+		
+		</style>
+		<script>
+		
+		var socket = io();
+		
+		function qDB() {
+			var query = document.getElementById("qProd").value;
+			socket.emit('qDB', {
+				"query" : query
+			});
+			//console.log("query: " + query);
+		}
+		
+		function clearText() {
+		document.getElementById("qProd").value = "";
+		}
+		
+		</script>
+
+       
+        
 
 </head>
+
 <body>
+<div id="top">
+<a id ="login" href="login.html">Login/Register</a></div>
+<div id="left"><input type="text" value="Search Products" id="qProd" onclick="clearText()"><br>
+<button type="button" id="qSubmit" onclick="qDB()">Search</button><br><br>
+<a href="feedback.html">Feedback</a><br><br>
+<a href="chat.html">Chat with Representative</a>
+</div>
+<div id="middle"></div>
+<div id="right"><br><br>
+<a href="checkout.html">Checkout</a><br><br>
+<a href="account.html">Account</a>
+</div>
         
-                <div id="navbar">
-                    <h1>What I've done so far</h1>
-                    <p>I am paragraph</p><br>
-                    <p>I am paragraph</p><br>
-                    <p>I am paragraph</p><br>
-                
-            </div>
-            <script>
-                    var socket = io();
-                    
-                    
-                    
-                    </script>
 
 </body>
+
 </html>
