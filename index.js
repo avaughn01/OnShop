@@ -25,10 +25,22 @@ http.listen("1000", function () {
 
 app.get('/index.html', function (req, res) {
     res.sendFile(__dirname + '/index.html');
+    
 });
 
 io.on('connection', function(socket) {
     console.log("Someone connected!");
+
+    socket.on("qDB", function(msg) {
+        console.log("Query: " + msg.query);
+    });
+
+    socket.on("getLogin", function(msg) {
+        console.log("username: " + msg.username);
+        
+        console.log("password: " + msg.password);
+
+    });
 
 
 
