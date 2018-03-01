@@ -27,8 +27,7 @@ function login(username, password) {
 
 // a user logged in, send them to game page
 socket.on('goodLogin', function(msg) {
-	document.cookie = msg.gameId;
-	window.location.assign("http://localhost:1000/game2.html");
+	//window.location.assign("http://localhost:1000/game.html");
 	});
 
 // bad login request was sent to server
@@ -62,3 +61,4 @@ Password:
 </div>
 </body>
 </html>
+

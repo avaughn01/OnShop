@@ -54,6 +54,31 @@
 		<script>
 		
 		var socket = io();
+		var c = "";
+		
+		window.onload = clientConnect();
+		
+		function clientConnect() {
+			socket.emit('cookieTime',{});
+			}
+		
+		socket.on('assignCookie', function(msg) {
+			document.cookie = msg.cookie;
+			c = msg.cookie;
+			console.log("Cookie: " + c);
+			
+			socket.emit('checkCookie', {
+				'cookie' : c});
+			});
+		
+		socket.on('cookie', function(msg) {
+			document.cookie = msg.sessionId;
+			c = msg.sessionId;
+		});
+		
+		socket.emit('checkCookie', {
+			"cookie" : c });
+		
 		
 		function qDB() {
 			var query = document.getElementById("qProd").value;
