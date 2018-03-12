@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>OnShop</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+		<style>
+		#top {
+		width: 600px;
+		margin-left: 25%;
+		margin-right: 25%;
+		float: middle;
+		border-style: groove;
+		border-color: gold;
+		border-width: 5px;
+		height:200px;
+		}
+
+		#topright{
+		width: 300px;
+		float: right;
+		}
+		
+		#topleft{
+		width: 300px;
+		float: left;
+		}
+		
+		#middle {
+		width: 600px;
+		margin-left: 25%;
+		margin-right: 25%;
+		float: middle;
+		border-style: groove;
+		border-color: gold;
+		border-width: 5px;
+		height:400px;
+		}
+
+		#bottom {
+		width: 600px;
+		margin-left: 25%;
+		margin-right: 25%;
+		float: middle;
+		border-style: groove;
+		border-color: gold;
+		border-width: 5px;
+		height:200px;
+		}
+
+		#bio {
+		margin-left: 50px;
+		}
+
+		#recentpurchases{
+		margin-left: 50px;
+		}
+
+		#profilepic{
+		margin-left: 50px;
+		}
+		</style>
+
+		<script>
+		</script>
+
+       
+        
+
+</head>
+
+<body>
+
+<div id="top">
+	<div id="topleft">
+	<form id="profilepic">
+		<h3>Profile: TestUser</h3>
+		<img src="https://scontent-dfw5-1.xx.fbcdn.net/v/t1.0-9/13516538_1101474136576251_3195620994754935617_n.jpg?oh=b2432706bd509ba23e2aed41c838a815&oe=5B3E794A" style="width:100px;height:100px;" border="5">
+	</form>	
+	</div>
+
+	<div id="topright">
+	<form>
+		<h3>Info:</h3>
+		Name:<textarea rows="1" cols="10" readonly>Test Person</textarea><br>
+		City:<textarea rows="1" cols="10" readonly>Place</textarea><br>
+		State:<textarea rows="1" cols="10" readonly>Area</textarea><br>
+		Birthday:<textarea rows="1" cols="10" readonly>Today</textarea><br>	
+	</form>
+	</div>
+</div>
+
+<div id="middle">
+	<form id="bio">
+		<h3>Bio:</h3>
+		<textarea rows="20" cols="68" style="border: solid 5px" readonly>This is just a test bio.</textarea>
+	</form>
+</div>
+
+<div id="bottom">
+	<form id="recentpurchases">
+		<h3>Recent Purchases:</h3>
+	</form>
+</div>
+        
+
+</body>
+</html>
