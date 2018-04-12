@@ -1,0 +1,5 @@
+Mongo db 3.0
+db.db("OnShopTest1").collection("users").findOne....
+
+Mongo db 2.7
+db.collection("users").find
