@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<title>Add Product</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+
+<script>
+var socket = io();
+
+window.onload = clientConnect();
+
+// send cookie to server
+function clientConnect() {
+	socket.emit('clientConnect',{
+		"sessionId" : document.cookie
+	});			
+}
+
+// get cookie from server
+socket.on('assignCookie', function(msg) {
+	document.cookie = msg.cookie;
+});
+
+function addProd(name, desc, rating, dispRev, totRev, price, id, numSold){
+socket.emit("addProd", {
+	"name" : name,
+    "desc" : desc,
+    "rating"    : rating,
+    "dispRev"    : dispRev,
+    "totRev"  : totRev,
+    "price" : price,
+    "id": id,
+    "numSold" : numSold
+	});
+}
+
+// a user registered, send them to the home page
+socket.on('goodLogin', function(msg) {
+	window.location.assign("http://localhost:1000/index.html");	
+});
+
+</script>
+</head>
+<body>
+<div id="registerBox">
+<form>
+Name:
+<br>
+<input type="text" id="name">
+<br>
+Description:
+<br>
+<input type="text" id="desc">
+<br>
+Rating:
+<br>
+<input type ="text" id="rating">
+<br>
+Displayed Reviews:
+<br>
+<input type = "text" id ="dispRev">
+<br>
+Total Reviews:
+<br>
+<input type ="text" id ="totRev">
+<br>
+Price:
+<br>
+<input type = "text" id = "price">
+<br>
+ID:
+<br>
+<input type = "text" id = "id">
+<br>
+Num Sold:
+<br>
+<input type = "text" id = "numSold">
+<br>
+<button type="button" id="submit" onclick=
+"addProd(document.getElementById('name').value, 
+document.getElementById('desc').value,
+document.getElementById('rating').value,
+document.getElementById('dispRev').value,
+document.getElementById('totRev').value,
+document.getElementById('price').value,
+document.getElementById('id').value,
+document.getElementById('numSold').value)">Submit</button>
+</form>
+</div>
+</body>
+</html>
