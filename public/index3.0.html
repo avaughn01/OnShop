@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>OnShop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap-4.0.0\dist\css\bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="bootstrap-4.0.0\dist\js\bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script>
+
+        var socket = io();
+        var cart = [];
+
+        window.onload = clientConnect();
+
+        function addToCart(id) {
+            cart.push(id);
+        }
+        function clientConnect() {
+            socket.emit('clientConnect', {
+                "sessionId": document.cookie
+            });
+            socket.emit('defaultProducts',{});
+        }
+
+        socket.on('assignCookie', function (msg) {
+            document.cookie = msg.cookie;
+        });
+
+        socket.on('showProd', function (msg) {
+            $("#dispProd").empty();
+            console.log(msg);
+            var row = "";
+            for (var i = 0; i < msg.length; i++) {
+                console.log("Reviewer: " + msg[i].reviewer);
+               row = '<tr class="text-dark">'; 
+               row += '<td>';
+               row += msg[i].name;
+               row += '</td>';
+               row += '<td>';
+               row += msg[i].price;
+               row += '</td>';
+               row += '<td>';
+               row += '<a href="javascript:addToCart('+ msg[i].id + ')">Add to cart</a>';               
+               row += '</td>';
+               row += '<td>';
+               row += '<button class="badge badge-scondary" type="button" style="background:gold" data-toggle="collapse" data-target="#' + msg[i].reviewer + '"aria-expanded="false" aria-controls="' + msg[i].reviewer + '" tabindex="-1">Reviews</button>';
+               row += '</td>';
+               row += '</tr>';
+               // collapse field for the displayed reviews
+               row += '<tr class="collapse" id="' + msg[i].reviewer +'">';
+               row += '<td colspan="2">';
+               row += '<dl class="row">';
+               row += '<dt class="col-3 col-sm-6">User</dt>';
+               row += '<dd class="col-9 col-sm-6">' + msg[i].reviewer + '</dd>';
+               row += '<dt class="col-3 col-sm-6">Review</dt>';
+               row += '<dd class="col-9 col-sm-6">' + msg[i].review + '</dd>';
+               row += '</dl>';
+               row += '</td>';
+               row += '</tr>';
+               // append to body
+               $('#dispProd').append(row);
+            }
+        });
+
+
+        function qDB() {
+            var query = document.getElementById("qProd").value;
+            socket.emit('qDB', {
+                "name": query
+            });
+            //console.log("query: " + query);
+        }
+
+        function clearText() {
+            document.getElementById("qProd").value = "";
+        }
+
+        function chatWindow() {
+            window.open("chat.html", "", "width=500, height=500");
+            window.focus();
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+    <div class="jumbotron text-center" style="background:black">
+        <h1 style="color:gold">Team OnShop</h1>
+        <p style="color:gold">All your product and profile needs</p>
+        <a id="login" href="login.html">Login/Register</a>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Services</h3>
+                <input type="text" value="Search Products" id="qProd" onclick="clearText()">
+                <button type="button" id="qSubmit" onclick="qDB()">Search</button>
+                <br>
+                <a href="feedback.html">Feedback</a>
+                <br>
+                <a href="javascript:chatWindow()" target="_parent">Chat with Representative</a>
+            </div>
+            <div class="col-sml-4" style="margin-right:50px; border-right-style:solid; border-right-width:2px; padding-right:50px;">
+                <h3>Products</h3>
+                
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Add to cart</th>
+                            <th scope="col">Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dispProd">
+
+                    </tbody>
+                </table>
+                <!-- 
+                        ==========================================
+                        = ADD an ul of pre-selected products here=
+                        ==========================================
+                   -->
+            </div>
+            <div class="col-sml-4">
+                <h3>Account</h3>
+                <a href="checkout.html">Checkout</a>
+                <br>
+                <a href="account.html">Account</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
